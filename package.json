@@ -1,6 +1,6 @@
 {
   "name": "@fatwang2/openclaw-search1api",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Search1API web search, news, page retrieval, sitemap, and trending tools for OpenClaw",
   "type": "module",
   "license": "MIT",
