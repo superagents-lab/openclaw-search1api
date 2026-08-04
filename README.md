@@ -5,7 +5,7 @@ Native OpenClaw tools for live web search, news, page retrieval, sitemap discove
 ## Install
 
 ```bash
-openclaw plugins install clawhub:fatwang2/openclaw-search1api
+openclaw plugins install clawhub:@fatwang2/openclaw-search1api
 ```
 
 Restart or reload the OpenClaw Gateway after installation, then verify the runtime:
