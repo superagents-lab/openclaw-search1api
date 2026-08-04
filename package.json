@@ -1,0 +1,61 @@
+{
+  "name": "@fatwang2/openclaw-search1api",
+  "version": "0.1.0",
+  "description": "Search1API web search, news, page retrieval, sitemap, and trending tools for OpenClaw",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/superagents-lab/openclaw-search1api.git"
+  },
+  "homepage": "https://www.search1api.com/docs",
+  "bugs": {
+    "url": "https://github.com/superagents-lab/openclaw-search1api/issues"
+  },
+  "keywords": [
+    "openclaw",
+    "openclaw-plugin",
+    "search1api",
+    "web-search",
+    "news",
+    "crawl"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "plugin:build": "npm run build && openclaw plugins build --entry ./dist/index.js",
+    "plugin:validate": "npm run build && openclaw plugins validate --entry ./dist/index.js",
+    "test": "npm run build && node --test tests/*.test.mjs"
+  },
+  "files": [
+    "dist",
+    "openclaw.plugin.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "search1api-cli": "^1.3.0",
+    "typebox": "^1.1.38"
+  },
+  "peerDependencies": {
+    "openclaw": ">=2026.5.17"
+  },
+  "devDependencies": {
+    "openclaw": "2026.7.1-2",
+    "typescript": "^5.9.0"
+  },
+  "engines": {
+    "node": ">=22.22.3"
+  },
+  "openclaw": {
+    "extensions": [
+      "./dist/index.js"
+    ],
+    "compat": {
+      "pluginApi": ">=2026.5.17"
+    },
+    "build": {
+      "openclawVersion": "2026.7.1-2",
+      "pluginSdkVersion": "2026.7.1-2"
+    }
+  }
+}

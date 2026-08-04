@@ -1,0 +1,27 @@
+{
+  "id": "search1api",
+  "name": "Search1API",
+  "description": "Search the live web, read pages, find news, discover site links, and explore trending topics.",
+  "version": "0.1.0",
+  "configSchema": {
+    "type": "object",
+    "properties": {
+      "apiKey": {
+        "type": "string",
+        "description": "Search1API API key. Prefer the SEARCH1API_KEY environment variable or shared s1 OAuth login when possible."
+      }
+    }
+  },
+  "activation": {
+    "onStartup": true
+  },
+  "contracts": {
+    "tools": [
+      "search1api_search",
+      "search1api_news",
+      "search1api_crawl",
+      "search1api_sitemap",
+      "search1api_trending"
+    ]
+  }
+}
