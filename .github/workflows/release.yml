@@ -33,4 +33,12 @@ jobs:
       - run: npm ci --ignore-scripts
       - run: npm test
       - run: npm run plugin:validate
-      - run: npx --yes clawhub@0.23.3 package publish . --family code-plugin --no-input
+      - name: Publish through ClawHub OIDC
+        env:
+          SOURCE_REPO: ${{ github.repository }}
+          SOURCE_COMMIT: ${{ github.sha }}
+          SOURCE_REF: ${{ github.ref }}
+        run: >-
+          npx --yes clawhub@0.23.3 package publish . --family code-plugin --no-input
+          --source-repo "$SOURCE_REPO" --source-commit "$SOURCE_COMMIT"
+          --source-ref "$SOURCE_REF" --wait --wait-timeout 600
