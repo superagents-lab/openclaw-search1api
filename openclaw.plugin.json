@@ -2,7 +2,7 @@
   "id": "search1api",
   "name": "Search1API",
   "description": "Search the live web, read pages, find news, discover site links, and explore trending topics.",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "configSchema": {
     "type": "object",
     "properties": {
@@ -19,6 +19,7 @@
     "tools": [
       "search1api_search",
       "search1api_news",
+      "search1api_ask",
       "search1api_crawl",
       "search1api_sitemap",
       "search1api_trending"

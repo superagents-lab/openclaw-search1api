@@ -1,4 +1,5 @@
 import {
+  ask,
   crawl,
   news,
   search,
@@ -15,8 +16,10 @@ import { defineToolPlugin } from "openclaw/plugin-sdk/tool-plugin";
 const searchServices = Type.Union([
   Type.Literal("google"),
   Type.Literal("bing"),
+  Type.Literal("bingcn"),
   Type.Literal("duckduckgo"),
   Type.Literal("yahoo"),
+  Type.Literal("yandex"),
   Type.Literal("x"),
   Type.Literal("reddit"),
   Type.Literal("github"),
@@ -26,6 +29,10 @@ const searchServices = Type.Union([
   Type.Literal("bilibili"),
   Type.Literal("imdb"),
   Type.Literal("wikipedia"),
+  Type.Literal("grokipedia"),
+  Type.Literal("baidu"),
+  Type.Literal("360"),
+  Type.Literal("quark"),
 ]);
 
 const newsServices = Type.Union([
@@ -34,10 +41,12 @@ const newsServices = Type.Union([
   Type.Literal("duckduckgo"),
   Type.Literal("yahoo"),
   Type.Literal("hackernews"),
+  Type.Literal("reuters"),
 ]);
 
 const timeRanges = Type.Union([
   Type.Literal("day"),
+  Type.Literal("week"),
   Type.Literal("month"),
   Type.Literal("year"),
 ]);
@@ -69,6 +78,7 @@ export default defineToolPlugin({
           Type.Integer({ minimum: 1, maximum: 50, description: "Maximum number of results." })
         ),
         searchService: Type.Optional(searchServices),
+        page: Type.Optional(Type.Integer({ minimum: 1, maximum: 100 })),
         crawlResults: Type.Optional(
           Type.Integer({ minimum: 0, maximum: 50, description: "Number of results to retrieve in full." })
         ),
@@ -87,6 +97,7 @@ export default defineToolPlugin({
           signal: context.signal,
           maxResults: params.maxResults,
           searchService: params.searchService as SearchService | undefined,
+          page: params.page,
           crawlResults: params.crawlResults,
           includeSites: params.includeSites,
           excludeSites: params.excludeSites,
@@ -119,6 +130,19 @@ export default defineToolPlugin({
           excludeSites: params.excludeSites,
           timeRange: params.timeRange as TimeRange | undefined,
         });
+      },
+    }),
+    tool({
+      name: "search1api_ask",
+      label: "Search1API Agentic Search",
+      description:
+        "Describe what to find in natural language. Search1API chooses engines and a time window and returns results ranked by relevance. Costs 5 credits.",
+      parameters: Type.Object({
+        query: Type.String({ minLength: 1, maxLength: 500 }),
+      }),
+      execute: async ({ query }, config, context) => {
+        context.signal?.throwIfAborted();
+        return ask(query, { apiKey: config.apiKey, signal: context.signal });
       },
     }),
     tool({
