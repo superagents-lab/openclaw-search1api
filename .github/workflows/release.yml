@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       release_ref:
-        description: Exact release tag to publish
+        description: Release version tag (must match package version)
         required: true
         default: v0.2.0
 permissions:
@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           persist-credentials: false
-          ref: ${{ inputs.release_ref || github.event.release.tag_name }}
+          ref: ${{ github.sha }}
       - uses: actions/setup-node@v6
         with:
           node-version: '24'
