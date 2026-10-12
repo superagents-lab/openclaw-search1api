@@ -19,6 +19,7 @@
     "tools": [
       "search1api_search",
       "search1api_news",
+      "search1api_ask",
       "search1api_crawl",
       "search1api_sitemap",
       "search1api_trending"

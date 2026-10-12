@@ -1,11 +1,13 @@
-import { crawl, news, search, sitemap, trending, } from "search1api-cli/sdk";
+import { ask, crawl, news, search, sitemap, trending, } from "search1api-cli/sdk";
 import { Type } from "typebox";
 import { defineToolPlugin } from "openclaw/plugin-sdk/tool-plugin";
 const searchServices = Type.Union([
     Type.Literal("google"),
     Type.Literal("bing"),
+    Type.Literal("bingcn"),
     Type.Literal("duckduckgo"),
     Type.Literal("yahoo"),
+    Type.Literal("yandex"),
     Type.Literal("x"),
     Type.Literal("reddit"),
     Type.Literal("github"),
@@ -15,6 +17,10 @@ const searchServices = Type.Union([
     Type.Literal("bilibili"),
     Type.Literal("imdb"),
     Type.Literal("wikipedia"),
+    Type.Literal("grokipedia"),
+    Type.Literal("baidu"),
+    Type.Literal("360"),
+    Type.Literal("quark"),
 ]);
 const newsServices = Type.Union([
     Type.Literal("google"),
@@ -22,9 +28,11 @@ const newsServices = Type.Union([
     Type.Literal("duckduckgo"),
     Type.Literal("yahoo"),
     Type.Literal("hackernews"),
+    Type.Literal("reuters"),
 ]);
 const timeRanges = Type.Union([
     Type.Literal("day"),
+    Type.Literal("week"),
     Type.Literal("month"),
     Type.Literal("year"),
 ]);
@@ -47,6 +55,7 @@ export default defineToolPlugin({
                 query: Type.String({ description: "Search query." }),
                 maxResults: Type.Optional(Type.Integer({ minimum: 1, maximum: 50, description: "Maximum number of results." })),
                 searchService: Type.Optional(searchServices),
+                page: Type.Optional(Type.Integer({ minimum: 1, maximum: 100 })),
                 crawlResults: Type.Optional(Type.Integer({ minimum: 0, maximum: 50, description: "Number of results to retrieve in full." })),
                 includeSites: Type.Optional(Type.Array(Type.String(), { description: "Only return results from these domains." })),
                 excludeSites: Type.Optional(Type.Array(Type.String(), { description: "Exclude results from these domains." })),
@@ -59,6 +68,7 @@ export default defineToolPlugin({
                     signal: context.signal,
                     maxResults: params.maxResults,
                     searchService: params.searchService,
+                    page: params.page,
                     crawlResults: params.crawlResults,
                     includeSites: params.includeSites,
                     excludeSites: params.excludeSites,
@@ -91,6 +101,18 @@ export default defineToolPlugin({
                     excludeSites: params.excludeSites,
                     timeRange: params.timeRange,
                 });
+            },
+        }),
+        tool({
+            name: "search1api_ask",
+            label: "Search1API Agentic Search",
+            description: "Describe what to find in natural language. Search1API chooses engines and a time window and returns results ranked by relevance. Costs 5 credits.",
+            parameters: Type.Object({
+                query: Type.String({ minLength: 1, maxLength: 500 }),
+            }),
+            execute: async ({ query }, config, context) => {
+                context.signal?.throwIfAborted();
+                return ask(query, { apiKey: config.apiKey, signal: context.signal });
             },
         }),
         tool({
