@@ -33,4 +33,4 @@ jobs:
       - run: npm ci --ignore-scripts
       - run: npm test
       - run: npm run plugin:validate
-      - run: npx --yes clawhub@0.23.3 package publish . --family code-plugin --owner fatwang2 --no-input
+      - run: npx --yes clawhub@0.23.3 package publish . --family code-plugin --no-input
